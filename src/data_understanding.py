@@ -1,11 +1,8 @@
 import pandas as pd
+import os
 
-#Lettura del foglio excel con pandas
-file_path = "dataset/Dataset.xlsx"
-df = pd.read_excel(file_path)
-
-#Conversione in csv
-df.to_csv('dataset/BloodDonations_Dataset.csv')
+PATH_SEPARATOR = os.sep
+df = pd.read_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv")
 
 #CONTROLLO SUL BILANCIAMENTO DEI DATI
 #Numero di elementi per la classe 'Donating'

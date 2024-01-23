@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 #Lettura del foglio excel con pandas
@@ -5,7 +6,13 @@ file_path = "dataset/Dataset.xlsx"
 df = pd.read_excel(file_path)
 
 #Conversione in csv
-df.to_csv('dataset/BloodDonations_Dataset.csv')
+# Creazione della cartella di destinazione se non esiste
+output_folder = 'dataset'
+os.makedirs(output_folder, exist_ok=True)
+
+# Conversione in csv
+csv_path = os.path.join(output_folder, 'BloodDonations_Dataset.csv')
+df.to_csv(csv_path)
 
 #CONTROLLO SUL BILANCIAMENTO DEI DATI
 #Numero di elementi per la classe 'Donating'

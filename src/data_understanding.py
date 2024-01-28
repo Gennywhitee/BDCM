@@ -2,7 +2,10 @@ import pandas as pd
 import os
 
 PATH_SEPARATOR = os.sep
-df = pd.read_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv")
+df=pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
+
+#Conversione in csv
+df.to_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv", index=False)
 
 #CONTROLLO SUL BILANCIAMENTO DEI DATI
 #Numero di elementi per la classe 'Donating'
@@ -24,6 +27,6 @@ print(nan_count)
 #Confermato che non vi sono valori nulli all'interno del dataset
 
 #ANALISI DELLE DISTRIBUZIONI DEI DATI
-print(df.describe())
+#print(df.describe())
 #c'è molta variabilità nei dati
 

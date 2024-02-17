@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import re
@@ -64,9 +65,46 @@ df.loc[(df['Class'] == 0) & (df['Monetary'].isnull()), 'Monetary'] = medianNotDo
 
 # I valori mancanti per la colonna 'Age' vengono sostituiti calcolando una mediana delle età delle persone aventi lo stesso titolo
 # medianAgeByTitle è una Serie
+
 medianAgeByTitle = df.groupby('Title')['Age'].median()
 
 for title, medianAge in medianAgeByTitle.items():
     df.loc[(df['Title'] == title) & pd.isnull(df['Age']), 'Age'] = medianAge
 
-df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False)
+plt.figure(figsize=(10,6))
+plt.hist(df['Age'], bins=60, color='skyblue', edgecolor='black')
+plt.title('Distribuzione delle età')
+plt.xlabel('Età')
+plt.ylabel('Frequenza')
+plt.show()
+
+"""Il grafico rivela che la maggior parte dei donatori ha un'età compresa tra i 20 e 40 anni.
+La feature 'Age' viene categorizzata in 4 intervalli diversi:
+- 'giovane' con età < 20;
+- 'giovane adulto' con 21 <= età <= 40;
+- 'adulto medio' con 41 <= età <= 60
+- 'adulto anziano' con età > 60
+"""
+
+#Definisco gli estremi degli intervalli e le etichette per categorizzare l'età
+bins = [float('-inf'), 20, 41, 61, float('inf')]
+labels = ['giovane', 'giovane adulto', 'adulto medio', 'adulto anziano']
+
+#Vediamo chi è più propenso a donare
+plt.figure(figsize=(10, 6))
+plt.scatter(df['Age'], df['Frequency'], alpha=0.5, color='blue')
+plt.title('Interazione tra Età e Frequenza delle Donazioni')
+plt.xlabel('Età')
+plt.ylabel('Frequenza delle Donazioni')
+plt.show()
+
+"""
+Dopo un'ulteriore analisi dei dati, il grafico mostra una forte concentrazione di punti tra i 20-40 anni di età e tra 
+0-20 per la frequenza delle donazioni. 
+In generale, questa fascia di età è la più propensa a donare, seguita dalla fascia di età 40-60.
+La frequenza delle donazioni diminuisce dopo circa i 65 anni, forse dovuto a patologie o altre informazioni cliniche della persona.
+"""
+
+#Categorizzazione dell'età e creazione di una nuova colonna 'AgeGroup'
+df['AgeGroup'] = pd.cut(df['Age'], bins= bins, labels= labels, right= False)
+df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False, columns=['Surname', 'Title', 'Sex', 'Age', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])

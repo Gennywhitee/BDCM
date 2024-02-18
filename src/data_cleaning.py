@@ -4,7 +4,7 @@ import os
 import re
 
 PATH_SEPARATOR = os.sep
-df=pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
+
 
 def dividiName(df):
     """
@@ -27,12 +27,14 @@ def dividiName(df):
     # print(df['Surname'])
 
     # In questo caso la labda cerca un pattern, definito tramite espressione regolare, e se trova un match, restituisce il primo gruppo, ossia quello tra parentesi ()
-    df['Title'] = df['Name'].apply(lambda x: re.search(r',\s*([^\.]+)\.', x).group(1) if re.search(r',\s*([^\.]+)\.', x) else None)
+    df['Title'] = df['Name'].apply(
+        lambda x: re.search(r',\s*([^\.]+)\.', x).group(1) if re.search(r',\s*([^\.]+)\.', x) else None)
 
     # Elimino la vecchia colonna
     df.drop(['Name'], axis=1, inplace=True)
 
     return df
+
 
 """ DA RIPORARTARE NEL MAIN
 # Visualizzo i risultati ottenuti e quanti valori si ottengono per ciascun titolo
@@ -42,6 +44,7 @@ print(df['Title'].value_counts())
 """Molti titoli sono ripetuti solo una o due volte, quindi potrebbero non essere molto utili.
 Inoltre, alcune categorie possono essere unite, come Mme sinonimo di Mrs (fanno riferimento a donne sposate)
 e Ms e Mlle sinonimi di Miss (fanno riferimento a donne non sposate)"""
+
 
 def redistribuzioneCategorie(df):
     # Itero il dataset per redistribuire le diverse categorie
@@ -56,11 +59,13 @@ def redistribuzioneCategorie(df):
 
     return df
 
+
 """ DA RIPORTARE NEL MAIN
 df = redistribuzioneCategorie(df)
 
 print(df['Title'].value_counts())
 """
+
 
 def gestioneValoriNullMonetary(df):
     # GESTIONE DEI DATI MANCANTI
@@ -73,6 +78,7 @@ def gestioneValoriNullMonetary(df):
 
     return df
 
+
 def gestioneValoriNullAge(df):
     # I valori mancanti per la colonna 'Age' vengono sostituiti calcolando una mediana delle età delle persone aventi lo stesso titolo
     # medianAgeByTitle è una Serie
@@ -84,13 +90,15 @@ def gestioneValoriNullAge(df):
 
     return df
 
+
 def showAgeDistribution(df):
-    plt.figure(figsize=(10,6))
+    plt.figure(figsize=(10, 6))
     plt.hist(df['Age'], bins=60, color='skyblue', edgecolor='black')
     plt.title('Distribuzione delle età')
     plt.xlabel('Età')
     plt.ylabel('Frequenza')
     plt.show()
+
 
 """ DA RIPORTARE NEL MAIN
 Il grafico rivela che la maggior parte dei donatori ha un'età compresa tra i 20 e 40 anni.
@@ -101,8 +109,9 @@ La feature 'Age' viene categorizzata in 4 intervalli diversi:
 - 'adulto anziano' con età > 60
 """
 
+
 def categorizzazioneAge(df):
-    #Definisco gli estremi degli intervalli e le etichette per categorizzare l'età
+    # Definisco gli estremi degli intervalli e le etichette per categorizzare l'età
     bins = [float('-inf'), 25, 41, 61, float('inf')]
     labels = ['giovane', 'giovane adulto', 'adulto medio', 'adulto anziano']
 
@@ -113,13 +122,14 @@ def categorizzazioneAge(df):
     La frequenza delle donazioni diminuisce dopo circa i 65 anni, forse dovuto a patologie o altre informazioni cliniche della persona.
     """
 
-    #Categorizzazione dell'età e creazione di una nuova colonna 'AgeGroup'
+    # Categorizzazione dell'età e creazione di una nuova colonna 'AgeGroup'
     df['AgeGroup'] = pd.cut(df['Age'], bins=bins, labels=labels, right=False)
 
     return df
 
+
 def showIntersectionAgeAndFrequency(df):
-    #Vediamo chi è più propenso a donare
+    # Vediamo chi è più propenso a donare
     plt.figure(figsize=(10, 6))
     plt.scatter(df['AgeGroup'], df['Frequency'], alpha=0.5, color='blue')
     plt.title('Interazione tra Età e Frequenza delle Donazioni')
@@ -127,7 +137,23 @@ def showIntersectionAgeAndFrequency(df):
     plt.ylabel('Frequenza delle Donazioni')
     plt.show()
 
-# Elimino la vecchia colonna
-df.drop(['Age'], axis=1, inplace=True)
 
-df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False, columns=['Surname', 'Title', 'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+# Elimino la vecchia colonna
+"""df.drop(['Age'], axis=1, inplace=True)
+
+df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False,
+            columns=['Surname', 'Title', 'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])"""
+
+
+def dropColumn(dataset):
+    label = ['Surname', 'Title']
+    dataset.drop(label, axis=1, inplace=True)
+    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
+                columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+
+
+def createOnlyTrue(dataset):
+    newDataset = dataset[dataset['Class'] == 0]
+
+    newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFalse.xlsx", index=False)
+

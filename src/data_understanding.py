@@ -24,7 +24,7 @@ nan_count = nan_present.sum()
 
 print(nan_count)
 
-#Confermato che non vi sono valori nulli all'interno del dataset
+#Confermata la presenza di valori nulli nel dataset
 
 #ANALISI DELLE DISTRIBUZIONI DEI DATI
 #print(df.describe())

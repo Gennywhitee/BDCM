@@ -11,7 +11,7 @@ cognome, titolo e nome.
 
 Inoltre le features 'Age' e 'Monetary' presentano dei valori mancanti. In particolare 'Age' in modo considerevole (153 e 10 per 'Monetary').
 
-Non meno importante è lo sbilanciamento delle classi!"""
+Non meno importante è lo sbilanciamento della feature 'Class'!"""
 
 # Sostituisco tutti i valori '2' con '0' nella colonna 'Class' per le persone che non hanno donato
 df['Class'] = df['Class'].replace(2, 0)
@@ -53,8 +53,6 @@ df = redistribuzioneCategorie(df)
 
 print(df['Title'].value_counts())
 
-#df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx", index=False)
-
 # GESTIONE DEI DATI MANCANTI
 # I valori mancanti per la colonna 'Monetary' vengono sostituiti attraverso la mediana per ciascuna classe
 medianDonated = df.loc[df['Class'] == 1, 'Monetary'].median()
@@ -80,23 +78,15 @@ plt.show()
 
 """Il grafico rivela che la maggior parte dei donatori ha un'età compresa tra i 20 e 40 anni.
 La feature 'Age' viene categorizzata in 4 intervalli diversi:
-- 'giovane' con età < 20;
-- 'giovane adulto' con 21 <= età <= 40;
+- 'giovane' con età < 25;
+- 'giovane adulto' con 26 <= età <= 40;
 - 'adulto medio' con 41 <= età <= 60
 - 'adulto anziano' con età > 60
 """
 
 #Definisco gli estremi degli intervalli e le etichette per categorizzare l'età
-bins = [float('-inf'), 20, 41, 61, float('inf')]
+bins = [float('-inf'), 25, 41, 61, float('inf')]
 labels = ['giovane', 'giovane adulto', 'adulto medio', 'adulto anziano']
-
-#Vediamo chi è più propenso a donare
-plt.figure(figsize=(10, 6))
-plt.scatter(df['Age'], df['Frequency'], alpha=0.5, color='blue')
-plt.title('Interazione tra Età e Frequenza delle Donazioni')
-plt.xlabel('Età')
-plt.ylabel('Frequenza delle Donazioni')
-plt.show()
 
 """
 Dopo un'ulteriore analisi dei dati, il grafico mostra una forte concentrazione di punti tra i 20-40 anni di età e tra 
@@ -106,5 +96,17 @@ La frequenza delle donazioni diminuisce dopo circa i 65 anni, forse dovuto a pat
 """
 
 #Categorizzazione dell'età e creazione di una nuova colonna 'AgeGroup'
-df['AgeGroup'] = pd.cut(df['Age'], bins= bins, labels= labels, right= False)
-df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False, columns=['Surname', 'Title', 'Sex', 'Age', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+df['AgeGroup'] = pd.cut(df['Age'], bins=bins, labels=labels, right=False)
+
+#Vediamo chi è più propenso a donare
+plt.figure(figsize=(10, 6))
+plt.scatter(df['AgeGroup'], df['Frequency'], alpha=0.5, color='blue')
+plt.title('Interazione tra Età e Frequenza delle Donazioni')
+plt.xlabel('Età')
+plt.ylabel('Frequenza delle Donazioni')
+plt.show()
+
+# Elimino la vecchia colonna
+df.drop(['Age'], axis=1, inplace=True)
+
+df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False, columns=['Surname', 'Title', 'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])

@@ -153,7 +153,26 @@ def dropColumn(dataset):
 
 
 def createOnlyTrue(dataset):
+    newDataset = dataset[dataset['Class'] == 1]
+
+    newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTrue.xlsx", index=False)
+
+def createOnlyFalse(dataset):
     newDataset = dataset[dataset['Class'] == 0]
 
     newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFalse.xlsx", index=False)
 
+def changeAgeGroup(df):
+    #Sostituisco le variabili categoriche con numeriche (1, 2, 3, 4)
+    for i, row in df.iterrows():
+        ageGroup = row['AgeGroup']
+        if ageGroup == 'giovane':
+            df.loc[i, 'AgeGroup'] = 1
+        elif ageGroup == 'giovane adulto':
+            df.loc[i, 'AgeGroup'] = 2
+        elif ageGroup == 'adulto medio':
+            df.loc[i, 'AgeGroup'] = 3
+        elif ageGroup == 'adulto anziano':
+            df.loc[i, 'AgeGroup'] = 4
+
+    df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetAgeChange.xlsx", index=False)

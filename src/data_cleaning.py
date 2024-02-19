@@ -162,15 +162,20 @@ def changeAgeGroup(df):
     for i, row in df.iterrows():
         ageGroup = row['AgeGroup']
         if ageGroup == 'giovane':
-            df.loc[i, 'AgeGroup'] = 1
+            df.at[i, 'AgeGroup'] = 1
         elif ageGroup == 'giovane adulto':
-            df.loc[i, 'AgeGroup'] = 2
+            df.at[i, 'AgeGroup'] = 2
         elif ageGroup == 'adulto medio':
-            df.loc[i, 'AgeGroup'] = 3
+            df.at[i, 'AgeGroup'] = 3
         elif ageGroup == 'adulto anziano':
-            df.loc[i, 'AgeGroup'] = 4
+            df.at[i, 'AgeGroup'] = 4
 
     df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetAgeChange.xlsx", index=False)
+
+def newDataset(dataset):
+    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}New_Dataset.xlsx", index=False)
+
+    return dataset
 
 
 def changeCat(dataset):

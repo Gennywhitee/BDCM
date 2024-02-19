@@ -6,7 +6,7 @@ import re
 PATH_SEPARATOR = os.sep
 
 
-def dividiName(df):
+def dividi_name(df):
     """
     Dalla fase di data_understing è sorto che la colonna 'Name' sembra contenere più informazioni insieme:
     cognome, titolo e nome.
@@ -46,7 +46,7 @@ Inoltre, alcune categorie possono essere unite, come Mme sinonimo di Mrs (fanno 
 e Ms e Mlle sinonimi di Miss (fanno riferimento a donne non sposate)"""
 
 
-def redistribuzioneCategorie(df):
+def redistribuzione_categorie(df):
     # Itero il dataset per redistribuire le diverse categorie
     for i, row in df.iterrows():
         title = row['Title']
@@ -67,7 +67,7 @@ print(df['Title'].value_counts())
 """
 
 
-def gestioneValoriNullMonetary(df):
+def gestioneValori_null_monetary(df):
     # GESTIONE DEI DATI MANCANTI
     # I valori mancanti per la colonna 'Monetary' vengono sostituiti attraverso la mediana per ciascuna classe
     medianDonated = df.loc[df['Class'] == 1, 'Monetary'].median()
@@ -79,7 +79,7 @@ def gestioneValoriNullMonetary(df):
     return df
 
 
-def gestioneValoriNullAge(df):
+def gestione_valori_null_age(df):
     # I valori mancanti per la colonna 'Age' vengono sostituiti calcolando una mediana delle età delle persone aventi lo stesso titolo
     # medianAgeByTitle è una Serie
 
@@ -91,7 +91,7 @@ def gestioneValoriNullAge(df):
     return df
 
 
-def showAgeDistribution(df):
+def show_age_distribution(df):
     plt.figure(figsize=(10, 6))
     plt.hist(df['Age'], bins=60, color='skyblue', edgecolor='black')
     plt.title('Distribuzione delle età')
@@ -110,7 +110,7 @@ La feature 'Age' viene categorizzata in 4 intervalli diversi:
 """
 
 
-def categorizzazioneAge(df):
+def categorizzazione_age(df):
     # Definisco gli estremi degli intervalli e le etichette per categorizzare l'età
     bins = [float('-inf'), 25, 41, 61, float('inf')]
     labels = ['giovane', 'giovane adulto', 'adulto medio', 'adulto anziano']
@@ -128,7 +128,7 @@ def categorizzazioneAge(df):
     return df
 
 
-def showIntersectionAgeAndFrequency(df):
+def show_intersection_age_and_frequency(df):
     # Vediamo chi è più propenso a donare
     plt.figure(figsize=(10, 6))
     plt.scatter(df['AgeGroup'], df['Frequency'], alpha=0.5, color='blue')
@@ -145,7 +145,7 @@ df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", inde
             columns=['Surname', 'Title', 'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])"""
 
 
-def dropColumn(dataset):
+def drop_column(dataset):
     label = ['Surname', 'Title']
     dataset.drop(label, axis=1, inplace=True)
     """dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
@@ -153,12 +153,12 @@ def dropColumn(dataset):
     return dataset
 
 
-def createOnlyTrue(dataset):
+def create_only_true(dataset):
     newDataset = dataset[dataset['Class'] == 0]
     newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFalse.xlsx", index=False)
 
 
-def changeAgeGroup(df):
+def change_age_group(df):
     # Sostituisco le variabili categoriche con numeriche (1, 2, 3, 4)
     for i, row in df.iterrows():
         ageGroup = row['AgeGroup']
@@ -174,7 +174,7 @@ def changeAgeGroup(df):
     return df
 
 
-def changeCat(dataset):
+def change_cat(dataset):
     for index, row in dataset.iterrows():
         tmpSex = [row[0]]
         if tmpSex[0] == "male":
@@ -185,7 +185,7 @@ def changeCat(dataset):
     return dataset
 
 
-def newDataset(dataset):
+def new_dataset(dataset):
     dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx", index=False,
                      columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
 

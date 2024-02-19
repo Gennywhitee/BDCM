@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-import data_understanding as du
+import data_understanding as dc
 import data_cleaning as dc
 import data_modelling as dm
 
@@ -10,15 +10,15 @@ PATH_SEPARATOR = os.sep
 #FASE DI DATA CLEANING
 df = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx")
 
-dataset = dc.newDataset(dc.changeCat(dc.changeAgeGroup(dc.dropColumn(df))))
+dataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))
 
-#dc.showIntersectionAgeAndFrequency(datasetTrue)
-#dc.showIntersectionAgeAndFrequency(datasetFalse)
+#dc.show_intersection_age_and_frequency(datasetTrue)
+#dc.show_intersection_age_and_frequency(datasetFalse)
 
 #FASE DI DATA MODELLING
-y_test, y_pred = dm.trainingModello(dataset)
+y_test, y_pred = dm.training_modello(dataset)
 
-accuracy, precision = dm.valutazioneModello(y_test, y_pred)
+accuracy, precision = dm.valutazione_modello(y_test, y_pred)
 
 print(f"\n\nAccuracy del modello sul test set: {accuracy:.2f}")
 print(f"Precison del modello sul test set: {precision:.2f}")

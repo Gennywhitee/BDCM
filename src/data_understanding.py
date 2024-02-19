@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 PATH_SEPARATOR = os.sep
-df=pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
+df = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
 
 #Conversione in csv
 df.to_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv", index=False)
@@ -31,4 +31,3 @@ print(nan_count)
 #ANALISI DELLE DISTRIBUZIONI DEI DATI
 #print(df.describe())
 #c'è molta variabilità nei dati
-

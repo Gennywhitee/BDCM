@@ -149,21 +149,16 @@ def dropColumn(dataset):
     label = ['Surname', 'Title']
     dataset.drop(label, axis=1, inplace=True)
     dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
-                columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+                     columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
 
 
 def createOnlyTrue(dataset):
-    newDataset = dataset[dataset['Class'] == 1]
-
-    newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTrue.xlsx", index=False)
-
-def createOnlyFalse(dataset):
     newDataset = dataset[dataset['Class'] == 0]
-
     newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFalse.xlsx", index=False)
 
+
 def changeAgeGroup(df):
-    #Sostituisco le variabili categoriche con numeriche (1, 2, 3, 4)
+    # Sostituisco le variabili categoriche con numeriche (1, 2, 3, 4)
     for i, row in df.iterrows():
         ageGroup = row['AgeGroup']
         if ageGroup == 'giovane':
@@ -176,3 +171,13 @@ def changeAgeGroup(df):
             df.loc[i, 'AgeGroup'] = 4
 
     df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetAgeChange.xlsx", index=False)
+
+
+def changeCat(dataset):
+    for index, row in dataset.iterrows():
+        tmpSex = [row[0]]
+        if tmpSex[0] == "male":
+            dataset.loc[index, 'Sex'] = 0
+        else:
+            dataset.loc[index, 'Sex'] = 1
+    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx", index=False)

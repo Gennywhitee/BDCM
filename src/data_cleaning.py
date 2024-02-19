@@ -148,8 +148,9 @@ df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", inde
 def dropColumn(dataset):
     label = ['Surname', 'Title']
     dataset.drop(label, axis=1, inplace=True)
-    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
-                     columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+    """dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
+                     columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])"""
+    return dataset
 
 
 def createOnlyTrue(dataset):
@@ -170,12 +171,7 @@ def changeAgeGroup(df):
         elif ageGroup == 'adulto anziano':
             df.at[i, 'AgeGroup'] = 4
 
-    df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetAgeChange.xlsx", index=False)
-
-def newDataset(dataset):
-    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}New_Dataset.xlsx", index=False)
-
-    return dataset
+    return df
 
 
 def changeCat(dataset):
@@ -185,4 +181,12 @@ def changeCat(dataset):
             dataset.loc[index, 'Sex'] = 0
         else:
             dataset.loc[index, 'Sex'] = 1
-    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx", index=False)
+
+    return dataset
+
+
+def newDataset(dataset):
+    dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx", index=False,
+                     columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])
+
+    return dataset

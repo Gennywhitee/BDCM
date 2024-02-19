@@ -9,16 +9,18 @@ df.to_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv"
 
 #CONTROLLO SUL BILANCIAMENTO DEI DATI
 #Numero di elementi per la classe 'Donating'
-print("Donating blood:", len(df[(df['Class'] == 1)]))
+print("Situazione iniziale con presenza di uno sbilanciamento delle classi:")
+print("--Donating blood:", len(df[(df['Class'] == 1)]))
 #Numero di elementi per la classe 'Not Donating'
-print("Not donating blood:", len(df[(df['Class'] == 2)]))
+print("--Not donating blood:", len(df[(df['Class'] == 2)]))
 
 #Totale
-print("Total:", len(df))
+print("Total delle istanze:", len(df))
 
 #Abbiamo un numero maggiore per la classe positiva (PROBABILE BILANCIAMENTO?!)
 
 #Verifico se e quanti valori nulli esistono attraverso la funzione isna() per trovarli e sum() per contarli
+print("\nValori nulli presenti nel dataset:")
 nan_present = df.isna()
 nan_count = nan_present.sum()
 

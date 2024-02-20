@@ -2,32 +2,33 @@ import pandas as pd
 import os
 
 PATH_SEPARATOR = os.sep
-df = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
 
-#Conversione in csv
-df.to_csv(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}BloodDonations_Dataset.csv", index=False)
+def printFrequency(df):  # CONTROLLO SUL BILANCIAMENTO DEI DATI
 
-#CONTROLLO SUL BILANCIAMENTO DEI DATI
-#Numero di elementi per la classe 'Donating'
-print("Situazione iniziale con presenza di uno sbilanciamento delle classi:")
-print("--Donating blood:", len(df[(df['Class'] == 1)]))
-#Numero di elementi per la classe 'Not Donating'
-print("--Not donating blood:", len(df[(df['Class'] == 2)]))
+    # Numero di elementi per la classe 'Donating'
+    print("Donating blood:", len(df[(df['Class'] == 1)]))
 
-#Totale
-print("Total delle istanze:", len(df))
+    # Numero di elementi per la classe 'Not Donating'
+    print("Not donating blood:", len(df[(df['Class'] == 0)]))
 
-#Abbiamo un numero maggiore per la classe positiva (PROBABILE BILANCIAMENTO?!)
+    # Totale
+    print("Total:", len(df))
 
-#Verifico se e quanti valori nulli esistono attraverso la funzione isna() per trovarli e sum() per contarli
-print("\nValori nulli presenti nel dataset:")
-nan_present = df.isna()
-nan_count = nan_present.sum()
 
-print(nan_count)
+# Abbiamo un numero maggiore per la classe positiva (PROBABILE BILANCIAMENTO?!)
 
-#Confermata la presenza di valori nulli nel dataset
+def printNullValues(df):    # Verifico se e quanti valori nulli esistono attraverso
+                            # la funzione isna() per trovarli e sum() per contarli
 
-#ANALISI DELLE DISTRIBUZIONI DEI DATI
-#print(df.describe())
-#c'è molta variabilità nei dati
+    nan_present = df.isna()
+    nan_count = nan_present.sum()
+
+    print(nan_count)
+
+# Confermata la presenza di valori nulli nel dataset
+
+# ANALISI DELLE DISTRIBUZIONI DEI DATI
+# print(df.describe())
+# c'è molta variabilità nei dati
+
+

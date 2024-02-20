@@ -163,13 +163,13 @@ def change_age_group(df):
     for i, row in df.iterrows():
         ageGroup = row['AgeGroup']
         if ageGroup == 'giovane':
-            df.at[i, 'AgeGroup'] = 1
+            df.loc[i, 'AgeGroup'] = 1
         elif ageGroup == 'giovane adulto':
-            df.at[i, 'AgeGroup'] = 2
+            df.loc[i, 'AgeGroup'] = 2
         elif ageGroup == 'adulto medio':
-            df.at[i, 'AgeGroup'] = 3
+            df.loc[i, 'AgeGroup'] = 3
         elif ageGroup == 'adulto anziano':
-            df.at[i, 'AgeGroup'] = 4
+            df.loc[i, 'AgeGroup'] = 4
 
     return df
 

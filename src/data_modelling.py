@@ -1,14 +1,15 @@
 import random
-
 import pandas as pd
 import os
-
-from imblearn.over_sampling import SMOTE
+import seaborn as sns
+import matplotlib.pyplot as plt
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import accuracy_score, precision_score, confusion_matrix
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import BernoulliNB
+
 
 PATH_SEPARATOR = os.sep
 
@@ -42,13 +43,23 @@ def training_modello(dataset_train, dataset_test):
     # Esecuzione delle predizioni sul set di dati
     y_pred = model.predict(x_test)
 
-    valutazione_modello(y_test, y_pred)
+    valutazione_modello(y_test, y_pred,"Random Forest")
 
     return y_test, y_pred
 
 
-def valutazione_modello(y_test, y_pred):
+def plot_confusion_matrix(conf_matrix, classes):
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes)
+    plt.title("Confusion Matrix")
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.show()
+
+
+def valutazione_modello(y_test, y_pred, title):
     # Valutazione dei risultati
+    print(title)
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
 
@@ -56,6 +67,9 @@ def valutazione_modello(y_test, y_pred):
     print(precision)
     print("--------------ACCURACY------------")
     print(accuracy)
+
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(conf_matrix, classes=['Not donating', 'Donating'])
 
 
 """def bilanciamento_classe(dataset):
@@ -65,7 +79,6 @@ def valutazione_modello(y_test, y_pred):
     # Sottocampionamento
     datasetUnder = undersampling(dataset)
     return x, y"""
-
 
 """def oversampling(x_train, y_train):
     rapporto_attuale = 0.6
@@ -100,11 +113,6 @@ def average(dataset):
     avgRecency = int(dataset['Recency'].mean())
     avgTime = int(dataset['Time'].mean())
 
-    print("MEDIA FREQUENZA: " + str(avgFrequency))
-    print("MEDIA MONETARY: " + str(avgMonetary))
-    print("MEDIA RECENCY: " + str(avgRecency))
-    print("MEDIA TIME: " + str(avgTime))
-
     avg = [avgFrequency, avgMonetary, avgRecency, avgTime]
 
     return avg
@@ -137,9 +145,37 @@ def oversampling_data(dataset, x):
 
     # Salva il DataFrame in un file Excel
     merge_datasets(dataset, new_data_frame)
-    print("Finito agiunte "+str(x))
+    print("Finito agiunte " + str(x))
 
 
 def merge_datasets(dataset1, dataset2):
     merged_dataset = pd.concat([dataset1, dataset2], axis=0)
     merged_dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTraining.xlsx", index=False)
+
+
+def train_multinomial_naive_bayes(dataset_train, dataset_test):
+    x_train = dataset_train.drop('Class', axis=1)
+    y_train = dataset_train['Class']
+
+    x_test = dataset_test.drop('Class', axis=1)
+    y_test = dataset_test['Class']
+
+    model = MultinomialNB()
+    model.fit(x_train, y_train)
+
+    y_pred = model.predict(x_test)
+    valutazione_modello(y_test, y_pred, "Multinominal NB")
+
+
+def train_bernoulli_naive_bayes(dataset_train, dataset_test):
+    x_train = dataset_train.drop('Class', axis=1)
+    y_train = dataset_train['Class']
+
+    x_test = dataset_test.drop('Class', axis=1)
+    y_test = dataset_test['Class']
+
+    model = BernoulliNB()
+    model.fit(x_train, y_train)
+
+    y_pred = model.predict(x_test)
+    valutazione_modello(y_test, y_pred, "Bernoulli NB")

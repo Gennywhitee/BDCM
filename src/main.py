@@ -49,5 +49,5 @@ print("Not donating blood:", len(dataf[(dataf['Class'] == 0)]))"""
 #du.printFrequency(datasetTest)
 #du.printFrequency(datasetTrain)
 
-#dm.training_modello(datasetTrain, datasetTest)
+dm.training_modello(datasetTrain, datasetTest)
 

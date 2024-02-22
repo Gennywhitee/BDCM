@@ -1,25 +1,26 @@
+import numpy as np
 import pandas as pd
 import os
-
+import eel
 import data_understanding as du
 import data_cleaning as dc
 import data_modelling as dm
 
 PATH_SEPARATOR = os.sep
 
-#FASE DI DATA CLEANING
+"""# FASE DI DATA CLEANING
 datasetTest = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTest.xlsx")
 datasetTrain = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTraining.xlsx")
-datasetFinale = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx")
+datasetFinale = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx")"""
 
-#dataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))
+# dataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))
 
-#dc.dropColumn(dataset)
-#dc.create_only_true(dataset)
-#dc.showIntersectionAgeAndFrequency(datasetTrue)
-#dc.showIntersectionAgeAndFrequency(datasetFalse)
+# dc.dropColumn(dataset)
+# dc.create_only_true(dataset)
+# dc.showIntersectionAgeAndFrequency(datasetTrue)
+# dc.showIntersectionAgeAndFrequency(datasetFalse)
 
-#-------------------FASE DI DATA MODELLING---------------------------------
+# -------------------FASE DI DATA MODELLING---------------------------------
 """y_test, y_pred = dm.training_modello(dataset)
 
 accuracy, precision = dm.valutazione_modello(y_test, y_pred)
@@ -34,20 +35,44 @@ print("Donating blood:", len(dataf[(dataf['Class'] == 1)]))
 #Numero di elementi per la classe 'Not Donating'
 print("Not donating blood:", len(dataf[(dataf['Class'] == 0)]))"""
 
-
 # dc.show_intersection_age_and_frequency(dataset)
 # dc.show_intersection_age_and_frequency(datasetFinale)
 
-#du.printFrequency(datasetFinale)
-#dm.merge_datasets(dataset, datasetFinale)
+# du.printFrequency(datasetFinale)
+# dm.merge_datasets(dataset, datasetFinale)
 # dm.average(dataset)
 # dm.oversampling_data(datasetFinale,200)
 
-#dm.data_partitioning(datasetFinale)
-#dm.oversampling_data(datasetTrain,180)
-#dm.undersampling(datasetTrain)
-#du.printFrequency(datasetTest)
-#du.printFrequency(datasetTrain)
+# dm.data_partitioning(datasetFinale)
+# dm.oversampling_data(datasetTrain,180)
+# dm.undersampling(datasetTrain)
+# du.printFrequency(datasetTest)
+# du.printFrequency(datasetTrain)
 
-dm.training_modello(datasetTrain, datasetTest)
+# dm.train_multinomial_naive_bayes(datasetTrain, datasetTest)
+"""model = dm.get_model("naive_bayes_MN_classifier.pkl")
+data = {"Sex": 0, "AgeGroup": 4, "Frequency": 15, "Monetary": 17500, "Recency": 14, "Time": 30}
+input_df = pd.DataFrame([data], index=[0])
+dm.get_prediction(input_df, model)"""
 
+eel.init('web')
+
+@eel.expose
+def invia_dati_al_modello(dati):
+    # Carica il modello
+    model = dm.get_model("naive_bayes_MN_classifier.pkl")
+
+    # Converte la lista di stringhe in un array numpy di float
+    array_dati = np.array(dati).astype(float)
+
+    # Reshape in un array 2D
+    array_dati_2D = array_dati.reshape(1, -1)
+
+    # Effettua la previsione
+    prediction = dm.get_prediction(array_dati_2D, model)
+    print(prediction)
+
+    return prediction
+
+
+eel.start('index.html', size=(800, 600))

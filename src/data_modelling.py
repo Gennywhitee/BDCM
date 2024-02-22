@@ -1,6 +1,7 @@
 import random
 import pandas as pd
 import os
+import pickle
 import seaborn as sns
 import matplotlib.pyplot as plt
 from imblearn.under_sampling import RandomUnderSampler
@@ -166,6 +167,9 @@ def train_multinomial_naive_bayes(dataset_train, dataset_test):
     y_pred = model.predict(x_test)
     valutazione_modello(y_test, y_pred, "Multinominal NB")
 
+    filename = "naive_bayes_MN_classifier.pkl"
+    save_model(model, filename)
+
 
 def train_bernoulli_naive_bayes(dataset_train, dataset_test):
     x_train = dataset_train.drop('Class', axis=1)
@@ -179,3 +183,20 @@ def train_bernoulli_naive_bayes(dataset_train, dataset_test):
 
     y_pred = model.predict(x_test)
     valutazione_modello(y_test, y_pred, "Bernoulli NB")
+
+
+def save_model(model, filename):
+    pickle.dump(model, open(filename, 'wb'))
+
+
+def get_model(filename):
+    model = pickle.load(open(filename, 'rb'))
+    return model
+
+
+def get_prediction(data, model):
+    prediction = model.predict(data)
+    if prediction == 1:
+        return "donatore"
+    else:
+        return "Non Donatore"

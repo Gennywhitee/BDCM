@@ -1,0 +1,43 @@
+
+/* Stile per il form */
+div {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+/* Centra il pulsante all'interno del form */
+.btn-primary {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.mainForm{
+    box-shadow: 5px 5px #bbb;
+    border: dimgrey 2px solid;
+    border-radius: 1em;
+}
+
+.sendButton{
+    border: black 3px solid;
+    text-align: center;
+    font-size: larger;
+    font-family: monospace;
+    font-weight: bold;
+    color: whitesmoke;
+    background-color: rgba(255, 0, 0, 0.658);
+    border-radius: 1em;
+    box-shadow: 5px 5px #bbb;
+}
+
+.sendButton:hover{
+    box-shadow: 0 0 5px 5px #bbb;
+    background-color: whitesmoke;
+    color: rgba(255, 0, 0, 0.658);
+    font-weight: bolder;
+}

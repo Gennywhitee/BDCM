@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="eel.js"></script>
+    <link rel="stylesheet" href="homepage.css">
+    <title>BloodTransfusionCM</title>
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5" id="container">
+        <div class="text-center">
+            <h1 style="text-align: center; font-family: monospace, monospace; font-weight: bold">BloodTransfusionCM</h1>
+        </div>
+        <div class="container-flex mainForm" >
+            <div class="row p-3">
+                <div class="col-6">
+                    <select class="form-control" id="sexIn" required>
+                        <option value="0">Uomo</option>
+                        <option value="1">Donna</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <select type="text" class="form-control" id="AgeGroup" required>
+                        <option value="1">Giovane [meno di 25]</option>
+                        <option value="2">Giovane adulto [tra i 26 e i 40]</option>
+                        <option value="3">Adulto medio [tra i 41 e i 60]</option>
+                        <option value="4">Anziano [più di 61]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row p-3">
+                <div class="col-6">
+                    <input type="number" class="form-control" id="Frequency" placeholder="Inserire numero totale di donazioni effettuate" required>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" id="Monetary" placeholder="Inserire numero totale in c.c di sangue donato" required>
+                </div>
+            </div>
+            <div class="row p-3">
+                <div class="col-6">
+                    <input type="number" class="form-control" id="Recency" placeholder="Inserire il numero do mesi dell'ultima donazione" required>
+                </div>
+                <div class="col-6">
+                    <input type="number" name="time" class="form-control" id="Time" placeholder="Inserire numero di mesi dalla prima donazione effettuata" required>
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col-8">
+                    <div class="sendButton" onclick="inviaDati()" > INVIA DATI</div>
+                </div>
+                <div class="col-4">
+                    <div class="sendButton" onclick="reloadPage()">NUOVA PREDIZIONE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function inviaDati() {
+            let sex = document.getElementById('sexIn').value;
+            let aGrp = document.getElementById('AgeGroup').value;
+            let frequency = document.getElementById('Frequency').value;
+            let monetary = document.getElementById('Monetary').value;
+            let recency = document.getElementById('Recency').value;
+            let time = document.getElementById('Time').value;
+            const dati = [sex, aGrp, frequency, monetary, recency, time];
+            const risultato = await eel.invia_dati_al_modello(dati)();
+            let newDiv = document.createElement("div");
+            let container = document.getElementById("container")
+
+            newDiv.innerHTML =
+                '<h1 class="display-3" style="text-align: center">'+risultato +'</h1>';
+
+            container.appendChild(newDiv)
+        }
+
+        eel.expose(inviaDati);
+
+        const reloadPage = () => {
+            window.location.href = "index.html"
+        }
+        
+    </script>
+</body>
+
+</html>

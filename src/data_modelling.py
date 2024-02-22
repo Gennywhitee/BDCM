@@ -6,10 +6,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, confusion_matrix, recall_score, f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
 
 
 PATH_SEPARATOR = os.sep
@@ -63,11 +62,17 @@ def valutazione_modello(y_test, y_pred, title):
     print(title)
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1Score = f1_score(y_test, y_pred)
 
     print("--------------PRECISION------------")
     print(precision)
     print("--------------ACCURACY------------")
     print(accuracy)
+    print("--------------RECALL------------")
+    print(recall)
+    print("--------------F1-SCORE------------")
+    print(f1Score)
 
     conf_matrix = confusion_matrix(y_test, y_pred)
     plot_confusion_matrix(conf_matrix, classes=['Not donating', 'Donating'])

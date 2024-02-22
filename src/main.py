@@ -1,17 +1,31 @@
+import eel
 import numpy as np
 import pandas as pd
 import os
-import eel
 import data_understanding as du
 import data_cleaning as dc
 import data_modelling as dm
 
 PATH_SEPARATOR = os.sep
 
-"""# FASE DI DATA CLEANING
 datasetTest = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTest.xlsx")
 datasetTrain = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTraining.xlsx")
-datasetFinale = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx")"""
+datasetFinale = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFinale.xlsx")
+
+"""FASE DI DATA CLEANING
+#PRIMO PROCESSING DEI DATI
+df1 = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}Dataset.xlsx")
+dataset = (dc.categorizzazione_age(dc.gestione_valori_null_age
+                                   (dc.gestioneValori_null_monetary(dc.redistribuzione_categorie(dc.dividi_name(df1))))))
+dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False,
+                 columns=['Surname', 'Title',	'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time',	'Class'])
+
+#SECONDO PROCESSING DEI DATI
+df = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx")
+
+#Creo il DatasetFinale
+newDataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))"""
+
 
 # dataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))
 
@@ -43,13 +57,14 @@ print("Not donating blood:", len(dataf[(dataf['Class'] == 0)]))"""
 # dm.average(dataset)
 # dm.oversampling_data(datasetFinale,200)
 
-# dm.data_partitioning(datasetFinale)
-# dm.oversampling_data(datasetTrain,180)
-# dm.undersampling(datasetTrain)
-# du.printFrequency(datasetTest)
-# du.printFrequency(datasetTrain)
+#dm.data_partitioning(datasetFinale)
+#dm.oversampling_data(datasetTrain,180)
+#dm.undersampling(datasetTrain)
+#du.printFrequency(datasetTest)
+#du.printFrequency(datasetTrain)
 
-# dm.train_multinomial_naive_bayes(datasetTrain, datasetTest)
+#dm.train_multinomial_naive_bayes(datasetTrain, datasetTest)
+
 """model = dm.get_model("naive_bayes_MN_classifier.pkl")
 data = {"Sex": 0, "AgeGroup": 4, "Frequency": 15, "Monetary": 17500, "Recency": 14, "Time": 30}
 input_df = pd.DataFrame([data], index=[0])

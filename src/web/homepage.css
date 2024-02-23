@@ -15,16 +15,17 @@ input {
     margin-left: auto;
     margin-right: auto;
     display: block;
+    cursor:pointer;
 }
 
 .mainForm{
     box-shadow: 5px 5px #bbb;
-    border: dimgrey 2px solid;
+    border: black 4px solid;
     border-radius: 1em;
 }
 
 .sendButton{
-    border: black 3px solid;
+    border: black 2px solid;
     text-align: center;
     font-size: larger;
     font-family: monospace;
@@ -40,4 +41,24 @@ input {
     background-color: whitesmoke;
     color: rgba(255, 0, 0, 0.658);
     font-weight: bolder;
+    cursor: pointer;
+}
+
+.syringeImg{
+    height: 4em;
+    width: 4em;
+}
+
+.homeButton{
+    background-color: white;
+    border: none;
+}
+
+.homeButton:hover{
+    cursor: pointer;
+    border: none;
+}
+.form-control{
+    border: black 2px solid;
+    border-radius: 1em;
 }

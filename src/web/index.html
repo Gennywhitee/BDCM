@@ -11,13 +11,17 @@
     <title>BloodTransfusionCM</title>
 </head>
 
-<body class="bg-light">
-    <div class="container mt-5" id="container">
-        <div class="text-center">
+<body class="bg-white">
+    <div style="margin-left: 1.5em; margin-top: 1.5em">
+        <button onclick="reloadPage()" class="homeButton"><img src="asset/syringe.png" class="syringeImg" alt="Homepage"></button>
+    </div>
+    <div class="container-fluid mt-5" id="container">
+        <div>
             <h1 style="text-align: center; font-family: monospace, monospace; font-weight: bold">BloodTransfusionCM</h1>
         </div>
-        <div class="container-flex mainForm" >
-            <div class="row p-3">
+    </div>
+        <div class="container-flex mainForm" style="background-color: whitesmoke">
+            <div class="row p-4">
                 <div class="col-6">
                     <select class="form-control" id="sexIn" required>
                         <option value="0">Uomo</option>
@@ -33,7 +37,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row p-3">
+            <div class="row p-4">
                 <div class="col-6">
                     <input type="number" class="form-control" id="Frequency" placeholder="Inserire numero totale di donazioni effettuate" required>
                 </div>
@@ -41,7 +45,7 @@
                     <input type="number" class="form-control" id="Monetary" placeholder="Inserire numero totale in c.c di sangue donato" required>
                 </div>
             </div>
-            <div class="row p-3">
+            <div class="row p-4">
                 <div class="col-6">
                     <input type="number" class="form-control" id="Recency" placeholder="Inserire il numero di mesi dell'ultima donazione" required>
                 </div>
@@ -49,7 +53,7 @@
                     <input type="number" name="time" class="form-control" id="Time" placeholder="Inserire numero di mesi dalla prima donazione effettuata" required>
                 </div>
             </div>
-            <div class="row p-2">
+            <div class="row p-4">
                 <div class="col-8">
                     <div class="sendButton" onclick="inviaDati()" > INVIA DATI</div>
                 </div>

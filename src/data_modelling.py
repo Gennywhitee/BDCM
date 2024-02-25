@@ -6,7 +6,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, confusion_matrix, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, confusion_matrix, recall_score, f1_score, roc_curve, \
+    roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB, BernoulliNB
 
@@ -57,6 +58,19 @@ def plot_confusion_matrix(conf_matrix, classes):
     plt.show()
 
 
+def plot_roc_curve(true_y, y_prob):
+    """
+    plots the roc curve based of the probabilities
+    """
+
+    fpr, tpr, thresholds = roc_curve(true_y, y_prob)
+    plt.plot(fpr, tpr, color='darkorange')
+    plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic')
+
+
 def valutazione_modello(y_test, y_pred, title):
     # Valutazione dei risultati
     print(title)
@@ -64,6 +78,9 @@ def valutazione_modello(y_test, y_pred, title):
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
     f1Score = f1_score(y_test, y_pred)
+
+    plot_roc_curve(y_test, y_pred)
+    #auc = roc_auc_score(y_test, y_pred)
 
     print("--------------PRECISION------------")
     print(precision)
@@ -73,6 +90,8 @@ def valutazione_modello(y_test, y_pred, title):
     print(recall)
     print("--------------F1-SCORE------------")
     print(f1Score)
+    """print("--------------AUC------------")
+    print(auc)"""
 
     conf_matrix = confusion_matrix(y_test, y_pred)
     plot_confusion_matrix(conf_matrix, classes=['Not donating', 'Donating'])
@@ -92,6 +111,8 @@ def valutazione_modello(y_test, y_pred, title):
     # Bilanciamento delle classi con SMOTE (tecninca di sovracampionamento)
     smote = SMOTE(sampling_strategy=rapporto_attuale, random_state=42)
     x_resampled, y_resampled = smote.fit_resample(x_train, y_train)
+    
+    #SI E' RIVELATA ESSERE NON EFFICACE PER LA 
 
     return x_resampled, y_resampled
 """

@@ -93,7 +93,7 @@ def gestione_valori_null_age(df):
 
 def show_age_distribution(df):
     plt.figure(figsize=(10, 6))
-    plt.hist(df['Age'], bins=60, color='skyblue', edgecolor='black')
+    plt.hist(df['Age'], bins=60, color='blue', edgecolor='black')
     plt.title('Distribuzione delle età')
     plt.xlabel('Età')
     plt.ylabel('Frequenza')

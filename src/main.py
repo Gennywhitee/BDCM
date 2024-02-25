@@ -33,6 +33,7 @@ newDataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df)
 # dc.create_only_true(dataset)
 # dc.showIntersectionAgeAndFrequency(datasetTrue)
 # dc.showIntersectionAgeAndFrequency(datasetFalse)
+#dc.show_age_distribution(datasetFinale)
 
 # -------------------FASE DI DATA MODELLING---------------------------------
 """y_test, y_pred = dm.training_modello(dataset)
@@ -63,14 +64,14 @@ print("Not donating blood:", len(dataf[(dataf['Class'] == 0)]))"""
 #du.printFrequency(datasetTest)
 #du.printFrequency(datasetTrain)
 
-#dm.train_multinomial_naive_bayes(datasetTrain, datasetTest)
+dm.train_multinomial_naive_bayes(datasetTrain, datasetTest)
 
 """model = dm.get_model("naive_bayes_MN_classifier.pkl")
 data = {"Sex": 0, "AgeGroup": 4, "Frequency": 15, "Monetary": 17500, "Recency": 14, "Time": 30}
 input_df = pd.DataFrame([data], index=[0])
 dm.get_prediction(input_df, model)"""
 
-eel.init('web')
+"""eel.init('web')
 
 @eel.expose
 def invia_dati_al_modello(dati):
@@ -90,4 +91,4 @@ def invia_dati_al_modello(dati):
     return prediction
 
 
-eel.start('index.html', size=(800, 600))
+eel.start('index.html', size=(800, 600))"""

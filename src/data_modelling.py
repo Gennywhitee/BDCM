@@ -31,44 +31,24 @@ def data_partitioning(dataset):
     testData.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTest.xlsx", index=False)
 
 
-def training_modello(dataset_train, dataset_test):
+def train_multinomial_naive_bayes(dataset_train, dataset_test):
+    # Separazione tra le variabili indipendenti e la variabile target
     x_train = dataset_train.drop('Class', axis=1)
     y_train = dataset_train['Class']
 
     x_test = dataset_test.drop('Class', axis=1)
     y_test = dataset_test['Class']
 
-    model = RandomForestClassifier(random_state=42)
-    # Addestramento del modello
+    model = MultinomialNB()
     model.fit(x_train, y_train)
-    # Esecuzione delle predizioni sul set di dati
+
+    # il modello esegue le predizioni sui casi di test
     y_pred = model.predict(x_test)
+    # le previsioni vengono confrontate con le etichette di classe reale
+    valutazione_modello(y_test, y_pred, "Multinominal NB")
 
-    valutazione_modello(y_test, y_pred,"Random Forest")
-
-    return y_test, y_pred
-
-
-def plot_confusion_matrix(conf_matrix, classes):
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes)
-    plt.title("Confusion Matrix")
-    plt.xlabel('Predicted')
-    plt.ylabel('Actual')
-    plt.show()
-
-
-def plot_roc_curve(true_y, y_prob):
-    """
-    plots the roc curve based of the probabilities
-    """
-
-    fpr, tpr, thresholds = roc_curve(true_y, y_prob)
-    plt.plot(fpr, tpr, color='darkorange')
-    plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver Operating Characteristic')
+    filename = "naive_bayes_MN_classifier.pkl"
+    save_model(model, filename)
 
 
 def valutazione_modello(y_test, y_pred, title):
@@ -95,6 +75,25 @@ def valutazione_modello(y_test, y_pred, title):
 
     conf_matrix = confusion_matrix(y_test, y_pred)
     plot_confusion_matrix(conf_matrix, classes=['Not donating', 'Donating'])
+
+
+def plot_confusion_matrix(conf_matrix, classes):
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes)
+    plt.title("Confusion Matrix")
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.show()
+
+
+def plot_roc_curve(true_y, y_prob):
+    
+    fpr, tpr, thresholds = roc_curve(true_y, y_prob)
+    plt.plot(fpr, tpr, color='darkorange')
+    plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic')
 
 
 """def bilanciamento_classe(dataset):
@@ -180,23 +179,6 @@ def merge_datasets(dataset1, dataset2):
     merged_dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetTraining.xlsx", index=False)
 
 
-def train_multinomial_naive_bayes(dataset_train, dataset_test):
-    x_train = dataset_train.drop('Class', axis=1)
-    y_train = dataset_train['Class']
-
-    x_test = dataset_test.drop('Class', axis=1)
-    y_test = dataset_test['Class']
-
-    model = MultinomialNB()
-    model.fit(x_train, y_train)
-
-    y_pred = model.predict(x_test)
-    valutazione_modello(y_test, y_pred, "Multinominal NB")
-
-    filename = "naive_bayes_MN_classifier.pkl"
-    save_model(model, filename)
-
-
 def train_bernoulli_naive_bayes(dataset_train, dataset_test):
     x_train = dataset_train.drop('Class', axis=1)
     y_train = dataset_train['Class']
@@ -209,6 +191,25 @@ def train_bernoulli_naive_bayes(dataset_train, dataset_test):
 
     y_pred = model.predict(x_test)
     valutazione_modello(y_test, y_pred, "Bernoulli NB")
+
+
+def training_modello(dataset_train, dataset_test):
+    # Separazione tra le variabili indipendenti e la variabile target
+    x_train = dataset_train.drop('Class', axis=1)
+    y_train = dataset_train['Class']
+
+    x_test = dataset_test.drop('Class', axis=1)
+    y_test = dataset_test['Class']
+
+    model = RandomForestClassifier(random_state=42)
+    # Addestramento del modello
+    model.fit(x_train, y_train)
+    # Esecuzione delle predizioni sul set di dati
+    y_pred = model.predict(x_test)
+
+    valutazione_modello(y_test, y_pred,"Random Forest")
+
+    return y_test, y_pred
 
 
 def save_model(model, filename):

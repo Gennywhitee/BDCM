@@ -26,13 +26,6 @@ df = pd.read_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx
 #Creo il DatasetFinale
 newDataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))"""
 
-
-# dataset = dc.new_dataset(dc.change_cat(dc.change_age_group(dc.drop_column(df))))
-
-# dc.dropColumn(dataset)
-# dc.create_only_true(dataset)
-# dc.showIntersectionAgeAndFrequency(datasetTrue)
-# dc.showIntersectionAgeAndFrequency(datasetFalse)
 #dc.show_age_distribution(datasetFinale)
 
 # -------------------FASE DI DATA MODELLING---------------------------------
@@ -71,7 +64,7 @@ data = {"Sex": 0, "AgeGroup": 4, "Frequency": 15, "Monetary": 17500, "Recency": 
 input_df = pd.DataFrame([data], index=[0])
 dm.get_prediction(input_df, model)"""
 
-"""eel.init('web')
+eel.init('web')
 
 @eel.expose
 def invia_dati_al_modello(dati):
@@ -91,4 +84,4 @@ def invia_dati_al_modello(dati):
     return prediction
 
 
-eel.start('index.html', size=(800, 600))"""
+eel.start('index.html', size=(800, 600))

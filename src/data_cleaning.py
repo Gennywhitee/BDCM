@@ -26,20 +26,20 @@ def dividi_name(df):
     # Check
     # print(df['Surname'])
 
-    # In questo caso la labda cerca un pattern, definito tramite espressione regolare, e se trova un match, restituisce il primo gruppo, ossia quello tra parentesi ()
+    # In questo caso la labda cerca un modello all'interno di una stringa, definito tramite espressione regolare, e se trova un match, restituisce il primo gruppo group(1), ossia quello tra parentesi () nell'espressione regolare
     df['Title'] = df['Name'].apply(
         lambda x: re.search(r',\s*([^\.]+)\.', x).group(1) if re.search(r',\s*([^\.]+)\.', x) else None)
 
     # Elimino la vecchia colonna
     df.drop(['Name'], axis=1, inplace=True)
 
+    """
+    Visualizzo i risultati ottenuti e quanti valori si ottengono per ciascun titolo
+    print(df['Title'].value_counts())
+    """
+
     return df
 
-
-""" DA RIPORARTARE NEL MAIN
-# Visualizzo i risultati ottenuti e quanti valori si ottengono per ciascun titolo
-print(df['Title'].value_counts())
-"""
 
 """Molti titoli sono ripetuti solo una o due volte, quindi potrebbero non essere molto utili.
 Inoltre, alcune categorie possono essere unite, come Mme sinonimo di Mrs (fanno riferimento a donne sposate)
@@ -60,7 +60,7 @@ def redistribuzione_categorie(df):
     return df
 
 
-""" DA RIPORTARE NEL MAIN
+""" 
 df = redistribuzioneCategorie(df)
 
 print(df['Title'].value_counts())
@@ -100,7 +100,7 @@ def show_age_distribution(df):
     plt.show()
 
 
-""" DA RIPORTARE NEL MAIN
+""" 
 Il grafico rivela che la maggior parte dei donatori ha un'età compresa tra i 20 e 40 anni.
 La feature 'Age' viene categorizzata in 4 intervalli diversi:
 - 'giovane' con età < 25;
@@ -116,8 +116,7 @@ def categorizzazione_age(df):
     labels = ['giovane', 'giovane adulto', 'adulto medio', 'adulto anziano']
 
     """
-    Dopo un'ulteriore analisi dei dati, il grafico mostra una forte concentrazione di punti tra i 20-40 anni di età e tra 
-    0-20 per la frequenza delle donazioni. 
+    Dopo un'ulteriore analisi dei dati, il grafico mostra una forte concentrazione di punti tra i 20-40 anni per la frequenza delle donazioni. 
     In generale, questa fascia di età è la più propensa a donare, seguita dalla fascia di età 40-60.
     La frequenza delle donazioni diminuisce dopo circa i 65 anni, forse dovuto a patologie o altre informazioni cliniche della persona.
     """
@@ -138,28 +137,20 @@ def show_intersection_age_and_frequency(df):
     plt.show()
 
 
-# Elimino la vecchia colonna
-"""df.drop(['Age'], axis=1, inplace=True)
-
-df.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPulito.xlsx", index=False,
-            columns=['Surname', 'Title', 'Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])"""
-
-
 def drop_column(dataset):
     label = ['Surname', 'Title']
     dataset.drop(label, axis=1, inplace=True)
-    """dataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetPostDrop.xlsx", index=False,
-                     columns=['Sex', 'AgeGroup', 'Frequency', 'Monetary', 'Recency', 'Time', 'Class'])"""
+
     return dataset
 
 
-def create_only_true(dataset):
+def create_only_false(dataset):
     newDataset = dataset[dataset['Class'] == 0]
     newDataset.to_excel(f"..{PATH_SEPARATOR}dataset{PATH_SEPARATOR}DatasetFalse.xlsx", index=False)
 
 
 def change_age_group(df):
-    # Sostituisco le variabili categoriche con numeriche (1, 2, 3, 4)
+    # Codifica delle variabili categoriche (1, 2, 3, 4)
     for i, row in df.iterrows():
         ageGroup = row['AgeGroup']
         if ageGroup == 'giovane':

@@ -18,7 +18,7 @@ def printFrequency(df):  # CONTROLLO SUL BILANCIAMENTO DEI DATI
 # Abbiamo un numero maggiore per la classe positiva (PROBABILE BILANCIAMENTO?!)
 
 def printNullValues(df):    # Verifico se e quanti valori nulli esistono attraverso
-                            # la funzione isna() per trovarli e sum() per contarli
+                            # la funzione isna() di pandas per trovarli e sum() per contarli
 
     nan_present = df.isna()
     nan_count = nan_present.sum()
@@ -26,9 +26,3 @@ def printNullValues(df):    # Verifico se e quanti valori nulli esistono attrave
     print(nan_count)
 
 # Confermata la presenza di valori nulli nel dataset
-
-# ANALISI DELLE DISTRIBUZIONI DEI DATI
-# print(df.describe())
-# c'è molta variabilità nei dati
-
-
